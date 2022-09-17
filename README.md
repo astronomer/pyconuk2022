@@ -127,8 +127,17 @@ astro dev logs -f
 SQL_TABLE_NAME=`airflow connections get sqlite_default -o yaml | grep host | awk '{print $2}'` sqlite3 "$SQL_TABLE_NAME" "VACUUM;"
 ```
 
-7. Spin up the Airflow webserver locally
+7. Spin up the Airflow webserver locally.
 
 ```bash
   airflow standalone
 ```
+
+8. You can run the DAGs (workflows) from the Webserver (http://localhost:8080) or from the CLI
+
+   * To run it from the CLI you can run the following command:
+    
+     ```bash
+     airflow dags test 01_example_airflow  `date -Iseconds`
+     ```
+
