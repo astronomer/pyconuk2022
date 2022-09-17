@@ -44,7 +44,7 @@ git clone https://github.com/astronomer/pyconuk2022.git
 
 3. Start Airflow in containers by running a previously initialised project
 ```bash
-cd pyconuk2022/docker
+cd pyconuk2022/docker/stable
 astro dev start
 ```
 
