@@ -63,6 +63,12 @@ The default Postgres DB credentials are: postgres:postgres
 
 Prompting the web browser to open the Airflow webserver UI.
 
+4. If you want to check the logs for the containers, run the following:
+
+```bash
+astro dev logs -f
+```
+
 
 ### Option B: Local Python virtual environment
 
