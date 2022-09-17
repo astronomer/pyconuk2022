@@ -1,0 +1,2 @@
+astro-sdk-python[google]==1.1.0b2
+fastparquet

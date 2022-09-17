@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+export AIRFLOW_HOME=`pwd`
+export AIRFLOW__CORE__ENABLE_XCOM_PICKLING=True
+export AIRFLOW__ASTRO_SDK__DATAFRAME_ALLOW_UNSAFE_STORAGE=True

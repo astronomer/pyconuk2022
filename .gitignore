@@ -138,3 +138,6 @@ local/logs
 local/standalone_admin_password.txt
 local/webserver_config.py
 
+# IDE
+.idea
+*.sw[a-z]

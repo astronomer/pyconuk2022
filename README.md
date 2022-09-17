@@ -1,4 +1,4 @@
-# Gettting Started with Apache Airflow and the Astro SDK
+# Getting Started with Apache Airflow and the Astro SDK
 
 This [workshop](https://pretalx.com/pycon-uk-2022/talk/PUA8SW/) was designed to introduce [Apache Airflow](https://airflow.apache.org/) to [PyCon UK 2022](https://2022.pyconuk.org/) attendees, on 17 September 2022. It was created by @kaxil and @tatiana on behalf of [Astronomer](https://astronomer.io).
 
@@ -30,17 +30,19 @@ For more information, check the [docker](./docker) sub-directory.
 **How to setup**
 
 1. Clone this repository
-```
+
+```bash
 git clone https://github.com/astronomer/pyconuk2022.git
 ```
 
 2. Start Airflow in containers by running a previously initialised project
-```
+```bash
 cd pyconuk2022/docker
 astro dev start
 ```
 
 If successful this will output after a few minutes the following message:
+
 ```
 Airflow is starting up! This might take a few minutes…
 
@@ -55,9 +57,10 @@ The default Postgres DB credentials are: postgres:postgres
 Prompting the web browser to open the Airflow webserver UI.
 
 
-### Option B: Native Python
+### Option B: Local Python virtual environment
 
-Dependencies:
+**Dependencies:**
+
 * Internet connection
 * [Python](https://www.python.org/downloads/) 3.7 - 3.10
 * [Pip](https://pypi.org/project/pip/) or your favourite [Python package management tool](https://packaging.python.org/en/latest/guides/tool-recommendations/)
@@ -67,15 +70,16 @@ Dependencies:
 **How to setup**
 
 1. Clone this repository
-```
-git clone https://github.com/astronomer/pyconuk2022.git
+
+```bash
+  git clone https://github.com/astronomer/pyconuk2022.git
 ```
 
 2. Create a Python virtual environment and activate it
 
 ```bash
-  python3 -m venv /tmp/venv
-  source /tmp/venv/bin/activate
+  python3 -m venv /tmp/airflow-stable
+  source /tmp/airflow-stable/bin/activate
 ```
 
 3. Change directory to the local development
@@ -87,16 +91,17 @@ git clone https://github.com/astronomer/pyconuk2022.git
 4. Set environment variables
 
 ```bash
-  export $(grep -v '^#' .env | xargs)
+  source env.sh
 ```
 
 5. Install the necessary python dependencies, including Airflow and the Astro SDK:
 
 ```bash
-pip install -r requirements.txt
+  pip install --upgrade pip
+  pip install -r requirements_stable.txt
 ```
 
-6. Initialisethe Airflow database
+6. Initialise the Airflow database
 
 ```bash
   airflow db init
@@ -107,4 +112,10 @@ pip install -r requirements.txt
 ```bash
 # The sqlite_default connection has different host for MacOS vs. Linux
 SQL_TABLE_NAME=`airflow connections get sqlite_default -o yaml | grep host | awk '{print $2}'` sqlite3 "$SQL_TABLE_NAME" "VACUUM;"
+```
+
+7. Spin up the Airflow webserver locally
+
+```bash
+  airflow standalone
 ```
