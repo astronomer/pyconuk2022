@@ -4,9 +4,8 @@ import pandas as pd
 import pendulum
 import requests
 import sqlalchemy
-from airflow.decorators import task
 from airflow import DAG
-
+from airflow.decorators import task
 
 DATABASE_URI = "sqlite:///github.db"
 
@@ -144,8 +143,10 @@ with DAG(
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
 ) as dag:
-    load(file_url, original_pr_table)
-    transform(original_pr_table, clean_pr_table)
-    enrich(clean_pr_table, enriched_pr_table)
-    summarise(enriched_pr_table, summarise_pr_table)
-    analyse(summarise_pr_table)
+    (
+        load(file_url, original_pr_table)
+        >> transform(original_pr_table, clean_pr_table)
+        >> enrich(clean_pr_table, enriched_pr_table)
+        >> summarise(enriched_pr_table, summarise_pr_table)
+        >> analyse(summarise_pr_table)
+    )
