@@ -1,8 +1,12 @@
 import tempfile
 
 import pandas as pd
+import pendulum
 import requests
 import sqlalchemy
+from airflow.decorators import dag, task
+from airflow import DAG
+
 
 DATABASE_URI = "sqlite:///github.db"
 
@@ -28,6 +32,7 @@ def create_table(table_name, engine):
     metadata.create_all()
 
 
+@task()
 def load(file_url, table_name):
     """Load a remote NDJSON file into a local SQlite table"""
     http_response = requests.get(file_url, allow_redirects=True)
@@ -44,6 +49,7 @@ def load(file_url, table_name):
     return table_name
 
 
+@task()
 def transform(input_table, output_table):
     """Clean the original data, only keeping relevant fields"""
     sql_statement = f"""
@@ -67,6 +73,7 @@ def transform(input_table, output_table):
     engine.execute(sql_statement)
 
 
+@task()
 def enrich(input_table, output_table):
     """Add additional data which enriches the original data"""
     sql_statement = f"""
@@ -82,10 +89,11 @@ def enrich(input_table, output_table):
     engine.execute(sql_statement)
 
 
+@task()
 def summarise(input_table, output_table):
     """Summarise the metrics per repository"""
     sql_statement = f"""
-    CREATE TABLE IF NOT EXISTS {output_table} AS
+    CREATE TABLE IF NOT EXISTS  {output_table} AS
         SELECT
             repo_name,
             AVG(days_to_merge),
@@ -98,6 +106,7 @@ def summarise(input_table, output_table):
     engine.execute(sql_statement)
 
 
+@task()
 def analyse(input_table):
     """Summarise the metrics per repository"""
     sql_statement = f"SELECT * FROM {input_table}"
@@ -123,14 +132,18 @@ def analyse(input_table):
     print(seem_well)
 
 
-def run():
-    """Load one day of Github activity into SQLite"""
-    file_url = "https://storage.googleapis.com/pyconuk-workshop/githubarchive/day/2022/09/01/githubarchive.day.20220901.ndjson"
-    original_pr_table = "day20220901"
-    clean_pr_table = "clean"
-    enriched_pr_table = "enriched"
-    summarise_pr_table = "summary"
+file_url = "https://storage.googleapis.com/pyconuk-workshop/githubarchive/day/2022/09/01/githubarchive.day.20220901.ndjson"
+original_pr_table = "day20220901"
+clean_pr_table = "clean"
+enriched_pr_table = "enriched"
+summarise_pr_table = "summary"
 
+with DAG(
+    "00_example_airflow",
+    schedule_interval=None,
+    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
+    catchup=False,
+) as dag:
     load(file_url, original_pr_table)
     transform(original_pr_table, clean_pr_table)
     enrich(clean_pr_table, enriched_pr_table)
@@ -138,5 +151,3 @@ def run():
     analyse(summarise_pr_table)
 
 
-if __name__ == "__main__":
-    run()
