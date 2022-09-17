@@ -82,7 +82,7 @@ input_file = File(
     path="https://storage.googleapis.com/pyconuk-workshop/githubarchive/day/2022/09/01/githubarchive.day.20220901.ndjson"
 )
 
-original_pr_table = Table("day20220901", conn_id="sqlite_default")
+original_pr_table = Table(name="day20220901", conn_id="sqlite_default")
 
 with DAG(
     "02_example_astro_sdk",
@@ -90,8 +90,8 @@ with DAG(
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
 ) as dag:
-    aql.load_file(input_file, output_table=original_pr_table)
-    clean_pr_table = transform(original_pr_table)
+    original_table = aql.load_file(input_file, output_table=original_pr_table)
+    clean_pr_table = transform(original_table)
     enriched_pr_table = enrich(clean_pr_table)
     summarise_pr_table = summarise(enriched_pr_table)
     analyse(summarise_pr_table)
