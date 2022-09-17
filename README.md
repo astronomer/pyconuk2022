@@ -87,7 +87,7 @@ Prompting the web browser to open the Airflow webserver UI.
 ```bash
   cd local
 ```
-  
+
 4. Set environment variables
 
 ```bash
