@@ -32,21 +32,22 @@ For more information, check the [docker](./docker) sub-directory.
 
 1. Clone this repository
 
-```bash
-git clone https://github.com/astronomer/pyconuk2022.git
-```
+   ```bash
+   git clone https://github.com/astronomer/pyconuk2022.git
+   ```
 
 2. Install the Astro CLI
 
-```bash
-  curl -sSL install.astronomer.io | sudo bash -s
-```
+   ```bash
+   curl -sSL install.astronomer.io | sudo bash -s
+   ```
 
 3. Start Airflow in containers by running a previously initialised project
-```bash
-cd pyconuk2022/docker/stable
-astro dev start
-```
+
+   ```bash
+   cd pyconuk2022/docker/stable
+   astro dev start
+   ```
 
 If successful this will output after a few minutes the following message:
 
@@ -65,9 +66,9 @@ Prompting the web browser to open the Airflow webserver UI.
 
 4. If you want to check the logs for the containers, run the following:
 
-```bash
-astro dev logs -f
-```
+   ```bash
+   astro dev logs -f
+   ```
 
 
 ### Option B: Local Python virtual environment
