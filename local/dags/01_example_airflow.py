@@ -4,7 +4,7 @@ import pandas as pd
 import pendulum
 import requests
 import sqlalchemy
-from airflow.decorators import dag, task
+from airflow.decorators import task
 from airflow import DAG
 
 
@@ -139,7 +139,7 @@ enriched_pr_table = "enriched"
 summarise_pr_table = "summary"
 
 with DAG(
-    "00_example_airflow",
+    "01_example_airflow",
     schedule_interval=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
