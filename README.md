@@ -25,7 +25,8 @@ For more information, check the [docker](./docker) sub-directory.
 
 * Internet connection
 * [Git](https://git-scm.com/)
-* [Docker](https://docs.docker.com/get-docker/), which comes with a pre-installed [Astro CLI](https://github.com/astronomer/astro-cli)
+* [Docker](https://docs.docker.com/get-docker/)
+* [Astro CLI](https://github.com/astronomer/astro-cli)
 
 **How to setup**
 
@@ -35,7 +36,13 @@ For more information, check the [docker](./docker) sub-directory.
 git clone https://github.com/astronomer/pyconuk2022.git
 ```
 
-2. Start Airflow in containers by running a previously initialised project
+2. Install the Astro CLI
+
+```bash
+  curl -sSL install.astronomer.io | sudo bash -s
+```
+
+3. Start Airflow in containers by running a previously initialised project
 ```bash
 cd pyconuk2022/docker
 astro dev start
