@@ -84,54 +84,54 @@ astro dev logs -f
 
 1. Clone this repository
 
-```bash
-  git clone https://github.com/astronomer/pyconuk2022.git
-```
+    ```bash
+    git clone https://github.com/astronomer/pyconuk2022.git
+    ```
 
 2. Create a Python virtual environment and activate it
 
-```bash
-  python3 -m venv /tmp/airflow-stable
-  source /tmp/airflow-stable/bin/activate
-```
+    ```bash
+    python3 -m venv /tmp/airflow-stable
+    source /tmp/airflow-stable/bin/activate
+    ```
 
 3. Change directory to the local development
 
-```bash
-  cd local
-```
+    ```bash
+    cd local
+    ```
 
 4. Set environment variables
 
-```bash
-  source env.sh
-```
+    ```bash
+    source env.sh
+    ```
 
 5. Install the necessary python dependencies, including Airflow and the Astro SDK:
 
-```bash
-  pip install --upgrade pip
-  pip install -r requirements_stable.txt
-```
+    ```bash
+    pip install --upgrade pip
+    pip install -r requirements_stable.txt
+    ```
 
 6. Initialise the Airflow database
 
-```bash
-  airflow db init
-```
+    ```bash
+    airflow db init
+    ```
 
 7. Create a SQLite database to run the example
 
-```bash
-# The sqlite_default connection has different host for MacOS vs. Linux
-SQL_TABLE_NAME=`airflow connections get sqlite_default -o yaml | grep host | awk '{print $2}'` sqlite3 "$SQL_TABLE_NAME" "VACUUM;"
-```
+    ```bash
+    # The sqlite_default connection has different host for MacOS vs. Linux
+    SQL_TABLE_NAME=`airflow connections get sqlite_default -o yaml | grep host | awk '{print $2}'` sqlite3 "$SQL_TABLE_NAME" "VACUUM;"
+    ```
 
 7. Spin up the Airflow webserver locally.
 
-```bash
-  airflow standalone
-```
+    ```bash
+    airflow standalone
+    ```
 
 8. You can run the DAGs (workflows) from the Webserver (http://localhost:8080) or from the CLI
 
